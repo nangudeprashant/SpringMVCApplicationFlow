@@ -1,0 +1,131 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-3.0.xsd
+	http://www.springframework.org/schema/mvc 
+	http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd"
+	xmlns:mvc="http://www.springframework.org/schema/mvc">
+
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/views/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+
+	<!-- =========================Start of Type 1 ============================================== -->
+
+	<!-- Type 1 Define only bean tags -->
+
+	<!-- Uncomment following code between ********************** line and see 
+		output by running BeanDemo.java file -->
+	<!-- *************************************************************** -->
+	
+	<bean id="beanA" class="com.javalive.component.BeanA"></bean>
+	<bean id="beanB" class="com.javalive.component.BeanB"></bean>
+	<bean id="beanC" class="com.javalive.component.BeanC"></bean>
+
+	<!-- *************************************************************** -->
+
+	<!-- Output explanation: In this case, all 3 beans are created and no dependency 
+		in injected in BeanA because we didn’t used any property/ref attributes. -->
+
+	<!-- =========================End of Type 1 ============================================== -->
+
+	<!-- =========================Start of Type 2 ============================================== -->
+
+	<!-- Type 2 Define bean tags and property ref attributes -->
+
+	<!-- Uncomment following code between ********************** line and see 
+		output by running BeanDemo.java file -->
+
+	<!-- *************************************************************** -->
+
+	<!-- <bean id="beanA" class="com.javalive.component.BeanA"> <property name="beanB" 
+		ref="beanB"></property> <property name="beanC" ref="beanC"></property> </bean> 
+		<bean id="beanB" class="com.javalive.component.BeanB"></bean> <bean id="beanC" 
+		class="com.javalive.component.BeanC"></bean> -->
+
+	<!-- *************************************************************** -->
+
+	<!-- Output explanation: Now the beans are created and injected as well. 
+		No wonder. -->
+
+	<!-- =========================End of Type 2 ============================================== -->
+
+	<!-- =========================Start of Type 3 ============================================== -->
+	<!-- Type 3 Using only <context:annotation-config /> -->
+
+	<!-- Uncomment following code between ********************** line and see 
+		output by running BeanDemo.java file -->
+	<!-- *************************************************************** -->
+
+	<!-- <context:annotation-config /> -->
+
+	<!-- *************************************************************** -->
+	<!--Output explanation: No out put here. As told already, <context:annotation-config 
+		/> activate the annotations only on beans which have already been discovered 
+		and registered. Here, we have not discovered any bean so nothing happened. -->
+
+	<!-- =========================End of Type 3 ============================================== -->
+
+	<!-- =========================Start of Type 4 ============================================== -->
+	<!--Type 4 Using <context:annotation-config /> with bean declarations -->
+
+	<!-- Uncomment code between ********************** line and see output by 
+		running BeanDemo.java file -->
+	<!-- *************************************************************** -->
+
+	<!-- <context:annotation-config /> <bean id="beanA" class="com.javalive.component.BeanA"></bean> 
+		<bean id="beanB" class="com.javalive.component.BeanB"></bean> <bean id="beanC" 
+		class="com.javalive.component.BeanC"></bean> -->
+
+	<!-- *************************************************************** -->
+	<!-- Output explanation: In above configuration, we have discovered the 
+		beans using <bean> tags. Now when we use <context:annotation-config />, it 
+		simply activates @Autowired annotation and bean injection inside BeanA happens. -->
+
+	<!-- =========================End of Type 4 ============================================== -->
+
+	<!-- =========================Start of Type 5 ============================================== -->
+	<!-- Type 5 Using only <context:component-scan /> -->
+	<!-- Uncomment code between ********************** line and see output by 
+		running BeanDemo.java file -->
+	<!-- *************************************************************** -->
+
+	<!-- <context:component-scan base-package="com.javalive.*" /> -->
+
+	<!-- *************************************************************** -->
+
+	<!-- Output explanation: Above configuration does both things as I mentioned 
+		earlier in start of post. It does the bean discovery (searches for @Component 
+		annotation in base package) and then activates the additional annotations 
+		(e.g. Autowired). -->
+
+	<!-- =========================End of Type 5 ============================================== -->
+
+
+	<!-- =========================Start of Type 6 ============================================== -->
+	<!--Type 6 Using both <context:component-scan /> and <context:annotation-config 
+		/> -->
+
+	<!-- Uncomment code between ********************** line and see output by 
+		running BeanDemo.java file -->
+	<!-- *************************************************************** -->
+	
+	<!-- <context:annotation-config /> <context:component-scan base-package="com.javalive.component" 
+		/> <bean id="beanA" class="com.javalive.component.BeanA"></bean> <bean id="beanB" 
+		class="com.javalive.component.BeanB"></bean> <bean id="beanC" class="com.javalive.component.BeanC"></bean> -->
+		
+	<!-- *************************************************************** -->
+	<!--Output explanation: Strange !! With above configuration we are discovering 
+		beans two times and activating annotations two times as well. But output 
+		got printed one time only. Why? Because spring is intelligent enough to register 
+		any configuration processing only once if it is registered multiple tiles 
+		using same or different ways. Cool !! -->
+
+	<!-- =========================End of Type 6 ============================================== -->
+</beans>
